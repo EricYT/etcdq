@@ -1,0 +1,16 @@
+{application, etcdq,
+ [
+  {description, ""},
+  {vsn, "1"},
+  {registered, []},
+  {applications, [
+                  kernel,
+                  stdlib,
+                  lager,
+                  etcd,
+                  cache,
+                  uuid
+                 ]},
+  {mod, { etcdq_app, []}},
+  {env, []}
+ ]}.

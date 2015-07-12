@@ -1,0 +1,21 @@
+2015-07-09 15:23:21.964 [info] <0.7.0> Application lager started on node nonode@nohost
+2015-07-09 15:23:21.989 [info] <0.7.0> Application asn1 started on node nonode@nohost
+2015-07-09 15:23:21.989 [info] <0.7.0> Application public_key started on node nonode@nohost
+2015-07-09 15:23:22.016 [info] <0.7.0> Application ssl started on node nonode@nohost
+2015-07-09 15:23:22.023 [info] <0.7.0> Application lhttpc started on node nonode@nohost
+2015-07-09 15:23:22.024 [info] <0.7.0> Application jiffy started on node nonode@nohost
+2015-07-09 15:23:22.028 [info] <0.7.0> Application etcd started on node nonode@nohost
+2015-07-09 15:23:22.042 [info] <0.7.0> Application emysql started on node nonode@nohost
+2015-07-09 15:23:22.044 [info] <0.7.0> Application poolboy started on node nonode@nohost
+2015-07-09 15:23:22.046 [info] <0.7.0> Application eredis started on node nonode@nohost
+2015-07-09 15:23:22.067 [error] <0.133.0> CRASH REPORT Process <0.133.0> with 0 neighbours exited with reason: call to undefined function undefined:start() in gen_server:init_it/6 line 330
+2015-07-09 15:23:22.203 [error] <0.132.0> Supervisor cache_sup had child cache_server started with cache_server:start_link() at undefined exit with reason call to undefined function undefined:start() in context start_error
+2015-07-09 15:23:22.204 [error] <0.130.0> CRASH REPORT Process <0.130.0> with 0 neighbours exited with reason: {{shutdown,{failed_to_start_child,cache_server,{undef,[{undefined,start,[],[]},{cache_server,init,1,[{file,"src/cache_server.erl"},{line,36}]},{gen_server,init_it,6,[{file,"gen_server.erl"},{line,306}]},{proc_lib,init_p_do_apply,3,[{file,"proc_lib.erl"},{line,239}]}]}}},{cache_app,start,[normal,[]]}} in application_master:init/4 line 133
+2015-07-09 15:23:22.204 [info] <0.7.0> Application cache exited with reason: {{shutdown,{failed_to_start_child,cache_server,{undef,[{undefined,start,[],[]},{cache_server,init,1,[{file,"src/cache_server.erl"},{line,36}]},{gen_server,init_it,6,[{file,"gen_server.erl"},{line,306}]},{proc_lib,init_p_do_apply,3,[{file,"proc_lib.erl"},{line,239}]}]}}},{cache_app,start,[normal,[]]}}
+2015-07-09 15:23:22.204 [info] <0.7.0> Application eredis exited with reason: stopped
+2015-07-09 15:23:22.204 [info] <0.7.0> Application poolboy exited with reason: stopped
+2015-07-09 15:23:22.204 [info] <0.7.0> Application emysql exited with reason: stopped
+2015-07-09 15:23:22.205 [info] <0.7.0> Application etcd exited with reason: stopped
+2015-07-09 15:23:22.205 [info] <0.7.0> Application jiffy exited with reason: stopped
+2015-07-09 15:23:22.205 [info] <0.7.0> Application lhttpc exited with reason: stopped
+2015-07-09 15:23:22.205 [info] <0.7.0> Application ssl exited with reason: stopped
