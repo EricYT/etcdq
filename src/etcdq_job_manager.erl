@@ -36,7 +36,6 @@ cancle_job(JobId) ->
 get_status(JobId) ->
   gen_server:call(?SERVER, {get_status, JobId}).
 
-
 %% ------------------------------------------------------------------
 %% gen_server Function Definitions
 %% ------------------------------------------------------------------

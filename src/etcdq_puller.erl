@@ -75,17 +75,15 @@ code_change(_OldVsn, State, _Extra) ->
 %% Internal Function Definitions
 %% ------------------------------------------------------------------
 maybe_pull_event(State) ->
-%%  lager:debug("-------(1)------> Event puller timeout"),
   #state{ event=_Event, index=Index } = State,
   EventDir = get(?EVENT_DIR),
-%%  lager:debug("-------(1)------> Event directory:~p", [EventDir]),
-  Index_ =
+  lager:debug("-------------> Result 0:~p", [{self(), Index}]),
   case watch(EventDir, Index) of
-    {ok, {CurrentIndex, Result}} ->
-      lager:debug("-------------> Reuslt:~p", [{self(), CurrentIndex}]),
+    {ok, Result} ->
+      CurrentIndex = ej:get({<<"node">>, <<"modifiedIndex">>}, Result, Index),
+      lager:debug("-------------> Result 1:~p", [{self(), CurrentIndex}]),
       case ej:get({<<"action">>}, Result) of
         <<"create">> ->
-%%          lager:debug("********(Puller)*********:~p", [{CurrentIndex, Result}]),
           case is_me(Index) of
             true ->
               EtcdKey = ej:get({<<"node">>, <<"key">>}, Result),
@@ -94,13 +92,14 @@ maybe_pull_event(State) ->
                 undefined ->
                   CurrentIndex;
                 EventEntity ->
-                  lager:debug("*********(EventEntity)***********:~p", [{get(?INDEX), EventEntity}]),
+                  lager:debug("*********(EventEntity 1)***********:~p", [{get(?INDEX), EventEntity}]),
                   #event{ entity=Entity } = EventEntity,
                   Module = get(?OPERATOR_MODULE),
                   Function = get(?OPERATOR_FUNCTION),
                   Options  = get(?OPTIONS),
-                  %%catch Module:Function(Entity, Options),
-                  catch Module:Function(Entity),
+                  lager:debug("*********(EventEntity 2)**********:~p", [{Module, Function, Options}]),
+                  catch Module:Function(Entity, Options),
+                  %%catch Module:Function(Entity),
                   CurrentIndex
               end,
               CurrentIndex;
@@ -110,29 +109,15 @@ maybe_pull_event(State) ->
         _ ->
           CurrentIndex
       end;
-    {error, timeout} ->
-      %% Let the http request break down to handle other info.
-      case Index of
-        undefined ->
-          Index;
-        _ ->
-         Index-1
-     end;
     Error ->
 %%      lager:error("Event puller pull error ~p", [Error]),
       Index
-  end,
-  case Index of
-    undefined ->
-      Index_;
-    _ ->
-      Index+1
   end.
 
 %% Hash one puller to do this job
 %% First one get the job
 is_me(undefined) ->
-  1 =:= ((get(?INDEX) rem get(?TOTAL_PULLER)));
+  1 =:= get(?INDEX);
 is_me(CurrentIndex) ->
   ((CurrentIndex rem get(?TOTAL_PULLER)) + 1) =:= get(?INDEX).
 

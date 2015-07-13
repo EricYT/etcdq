@@ -62,7 +62,7 @@ maybe_do_job() ->
   %%lager:debug("-------(1)------> Worker timeout"),
   %% List all jobs in the directory
   case etcd:read(?ETCD_JOB_DIR, true) of
-    {ok, {_EtcdIndex, Response}} ->
+    {ok, Response} ->
       %% Get a job
       AllNodes = ej:get({<<"node">>, <<"nodes">>}, Response, []),
       case filter_a_job(AllNodes) of
@@ -72,7 +72,7 @@ maybe_do_job() ->
           %% try to lock the job
           %%lager:debug("---------(get jobs)---------> ~p", [Key]),
           case etcd:update_ex(Key, ?JOB_WAITING, ?JOB_RUNNING) of 
-            {ok, {_NewIndex, _Response}} ->
+            {ok, _Response} ->
               %% Lock the job
               lager:debug("--------(lock success)-------------> Key:~p", [Key]),
               try
@@ -82,7 +82,7 @@ maybe_do_job() ->
                 %% Do job
                 todo,
                 %% Update job status
-                {ok, {_, _}} = etcd:update_ex(Key, ?JOB_RUNNING, ?JOB_COMPLETE, ?DEFAULT_REQUEST_TIMEOUT),
+                {ok, _} = etcd:update_ex(Key, ?JOB_RUNNING, ?JOB_COMPLETE, ?DEFAULT_REQUEST_TIMEOUT),
                 lager:debug("--------(operator success)-------------> done"),
                 true
               catch Error:Reason ->

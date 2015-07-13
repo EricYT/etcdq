@@ -48,7 +48,7 @@ publish(Event, Args) ->
 init(_Args) ->
   %% Init the default events
   %% Events format: {event, pullersize, callbackModule, callbackFunction, other}
-  Events = application:get_env(etcdq, events, [{test, 2, io, format, []}]),
+  Events = application:get_env(etcdq, events, [{test, 3, io, format, []}]),
   Registered = convert_events(Events, []),
   {ok, #state{ registered = Registered }}.
 
