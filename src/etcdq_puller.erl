@@ -98,9 +98,12 @@ maybe_pull_event(State) ->
                   Function = get(?OPERATOR_FUNCTION),
                   Options  = get(?OPTIONS),
                   lager:debug("*********(EventEntity 2)**********:~p", [{Module, Function, Options}]),
-                  catch Module:Function(Entity, Options),
-                  %%catch Module:Function(Entity),
-                  CurrentIndex
+                  try
+                    Module:Function(Entity, Options)
+                  catch CrashError:CrashReason ->
+                    lager:error("etcdq_puller error:~p reason:~p traceback:~p", [CrashError, CrashReason, erlang:get_stacktrace()]),
+                    CurrentIndex
+                  end
               end,
               CurrentIndex;
             false ->
